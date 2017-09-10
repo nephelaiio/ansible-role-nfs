@@ -1,0 +1,18 @@
+---
+nfs_packages:
+  - nfs-kernel-server
+
+nfs_packages_state: present
+
+nfs_conf_template: exports.j2
+
+nfs_conf_path: /etc/exports
+
+nfs_exports: []
+
+nfs_service_names:
+  - nfs-kernel-server
+
+nfs_service_status: started
+
+nfs_service_enabled: yes

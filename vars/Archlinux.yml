@@ -1,0 +1,6 @@
+---
+nfs_packages:
+  - nfs-utils
+
+nfs_service_names:
+  - nfs-server

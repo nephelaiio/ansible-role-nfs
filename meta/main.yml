@@ -1,0 +1,23 @@
+---
+galaxy_info:
+  author: Ted Cook
+  description: An Ansible role to install and configure nfs
+  license: MIT
+  min_ansible_version: 2.3
+  platforms:
+    - name: EL
+      versions:
+        - 7
+    - name: Archlinux
+      versions:
+        - all
+    - name: Ubuntu
+      versions:
+        - xenial
+    - name: Debian
+      versions:
+        - stretch
+  galaxy_tags:
+    - nfs
+
+dependencies: []
