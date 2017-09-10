@@ -1,5 +1,5 @@
 ---
-- name: "include variable overrides"
+- name: include variable overrides
   include_vars: "{{ item }}"
   with_first_found:
     - files:
@@ -19,6 +19,15 @@
   tags:
     - nfs
 
+- name: create export directories
+  file:
+    path: "{{ item.strip().split()[0] }}"
+    state: directory
+  with_items: "{{ nfs_exports }}"
+  notify: restart nfs
+  tags:
+    - nfs
+
 - name: configure nfs
   template:
     src: "{{ nfs_conf_template }}"
@@ -26,6 +35,9 @@
   vars:
     exports: "{{ nfs_exports }}"
   become: yes
+  notify: restart nfs
+  tags:
+    - nfs
 
 - name: manage nfs services
   service:
@@ -34,3 +46,5 @@
     enabled: "{{ nfs_service_enabled }}"
   become: "yes"
   with_items: "{{ nfs_service_names }}"
+  tags:
+    - nfs
