@@ -28,8 +28,6 @@ Role is tested against the following distributions (docker images):
   * Arch Linux
 
 You can test the role directly from sources using command ` molecule test `
-Travis configuration is provided in the [Travis-CI configuration file](/.travis.yml)
-Please review the [documentation](http://docs.ansible.com/ansible/galaxy.html#setup-travis-integrations) in order to add continuous integration for the role using [Travis CI](https://travis-ci.org). 
 
 ## License
 
