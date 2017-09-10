@@ -21,4 +21,3 @@ def test_host(host):
         service_names = ['nfs-server']
     for service_name in service_names:
         assert host.service(service_name).is_running
-
