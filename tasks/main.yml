@@ -24,6 +24,7 @@
     path: "{{ item.strip().split()[0] }}"
     state: directory
   with_items: "{{ nfs_exports }}"
+  become: yes
   notify: restart nfs
   tags:
     - nfs
