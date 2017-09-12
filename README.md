@@ -11,12 +11,13 @@ Please refer to the [defaults file](/defaults/main.yml) for an up to date list o
 
 ## Example Playbook
 
+```
 - hosts: servers
   roles:
      - role: nfs
        nfs_exports:
          - /var/nfs/backups -sec=sys,rw,anon=0
-
+```
 
 ## Testing
 
