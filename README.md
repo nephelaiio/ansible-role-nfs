@@ -1,6 +1,7 @@
 # nephelaiio.nfs
 
 [![Build Status](https://travis-ci.org/nephelaiio/ansible-role-nfs.svg?branch=master)](https://travis-ci.org/nephelaiio/ansible-role-nfs)
+[![Ansible Galaxy](http://img.shields.io/badge/ansible--galaxy-systemd--service-blue.svg)](https://galaxy.ansible.com/nephelaiio/nfs/)
 
 An [ansible role](https://galaxy.ansible.com/nephelaiio/nfs) to install and configure nfs
 
