@@ -7,8 +7,6 @@
         - "vars/{{ ansible_distribution }}.yml"
         - "vars/{{ ansible_os_family }}.yml"
       skip: true
-  tags:
-    - nfs
 
 - name: install nfs packages
   package:
@@ -16,8 +14,6 @@
     state: "{{ nfs_packages_state }}"
   become: "yes"
   with_items: "{{ nfs_packages }}"
-  tags:
-    - nfs
 
 - name: create export directories
   file:
@@ -26,10 +22,8 @@
   with_items: "{{ nfs_exports }}"
   become: yes
   notify: restart nfs
-  tags:
-    - nfs
 
-- name: configure nfs
+- name: configure exports
   template:
     src: "{{ nfs_conf_template }}"
     dest: "{{ nfs_conf_path }}"
@@ -37,15 +31,11 @@
     exports: "{{ nfs_exports }}"
   become: yes
   notify: restart nfs
-  tags:
-    - nfs
 
-- name: manage nfs services
+- name: manage services
   service:
     name: "{{ item }}"
     state: "{{ nfs_service_status }}"
     enabled: "{{ nfs_service_enabled }}"
   become: "yes"
   with_items: "{{ nfs_service_names }}"
-  tags:
-    - nfs
