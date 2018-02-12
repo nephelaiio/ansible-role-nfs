@@ -8,34 +8,41 @@
         - "vars/{{ ansible_os_family }}.yml"
       skip: true
 
-- name: install nfs packages
+- name: install nfs client packages
   package:
     name: "{{ item }}"
     state: "{{ nfs_packages_state }}"
-  become: "yes"
-  with_items: "{{ nfs_packages }}"
+  with_items: "{{ nfs_packages_client | default(nfs_packages_client_default) }}"
 
-- name: create export directories
+- name: install nfs server packages
+  package:
+    name: "{{ item }}"
+    state: "{{ nfs_packages_state }}"
+  with_items: "{{ nfs_packages_server | default(nfs_packages_server_default) }}"
+  when: "{{ nfs_server }}"
+
+- name: create nfs export directories
   file:
     path: "{{ item.strip().split()[0] }}"
     state: directory
   with_items: "{{ nfs_exports }}"
-  become: yes
+  when: "{{ nfs_server }}"
   notify: restart nfs
 
-- name: configure exports
+- name: configure nfs exports
   template:
     src: "{{ nfs_conf_template }}"
     dest: "{{ nfs_conf_path }}"
   vars:
     exports: "{{ nfs_exports }}"
-  become: yes
+  when: "{{ nfs_server }}"
+  when: "{{ nfs_server }}"
   notify: restart nfs
 
-- name: manage services
+- name: manage nfs services
   service:
     name: "{{ item }}"
     state: "{{ nfs_service_status }}"
     enabled: "{{ nfs_service_enabled }}"
-  become: "yes"
   with_items: "{{ nfs_service_names }}"
+  when: "{{ nfs_server }}"

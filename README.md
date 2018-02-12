@@ -7,16 +7,35 @@ An [ansible role](https://galaxy.ansible.com/nephelaiio/nfs) to install and conf
 
 ## Role Variables
 
+NFS server configuration is set by default
+```
+nfs_server: yes
+```
+Set to false for client-only installation
+
+NFS export list is empty by default
+```
+nfs_exports: []
+```
+
+You can customize them as a list of /etc/exports file entries:
+
+```
+nfs_exports:
+  - / *(ro,fsid=0)
+  - /home *(rw,sync,nohide)  
+```
+
 Please refer to the [defaults file](/defaults/main.yml) for an up to date list of input parameters.
 
 ## Example Playbook
-
 ```
-- hosts: servers
+- hosts: nfs
+  vars:
+     nfs_exports:
+       - /var/nfs/backups -sec=sys,rw,anon=0
   roles:
-     - role: nfs
-       nfs_exports:
-         - /var/nfs/backups -sec=sys,rw,anon=0
+     - role: nephelaiio.nfs
 ```
 
 ## Testing

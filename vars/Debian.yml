@@ -1,0 +1,9 @@
+---
+nfs_packages_server_default:
+  - nfs-kernel-server
+
+nfs_packages_client_default:
+  - nfs-utils
+
+nfs_service_names_defeault:
+  - nfs-kernel-server
