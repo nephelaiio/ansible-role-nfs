@@ -36,7 +36,6 @@
   vars:
     exports: "{{ nfs_exports }}"
   when: "{{ nfs_server }}"
-  when: "{{ nfs_server }}"
   notify: restart nfs
 
 - name: manage nfs services
