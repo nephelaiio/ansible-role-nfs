@@ -19,14 +19,14 @@
     name: "{{ item }}"
     state: "{{ nfs_packages_state }}"
   with_items: "{{ nfs_packages_server | default(nfs_packages_server_default) }}"
-  when: "{{ nfs_server }}"
+  when: nfs_server
 
 - name: create nfs export directories
   file:
     path: "{{ item.strip().split()[0] }}"
     state: directory
   with_items: "{{ nfs_exports }}"
-  when: "{{ nfs_server }}"
+  when: nfs_server
   notify: restart nfs
 
 - name: configure nfs exports
@@ -35,7 +35,7 @@
     dest: "{{ nfs_conf_path }}"
   vars:
     exports: "{{ nfs_exports }}"
-  when: "{{ nfs_server }}"
+  when: nfs_server
   notify: restart nfs
 
 - name: manage nfs services
@@ -44,4 +44,4 @@
     state: "{{ nfs_service_status }}"
     enabled: "{{ nfs_service_enabled }}"
   with_items: "{{ nfs_service_names }}"
-  when: "{{ nfs_server }}"
+  when: nfs_server
