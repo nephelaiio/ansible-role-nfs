@@ -6,6 +6,5 @@ nfs_packages_server_default:
   - portmap
 
 nfs_service_names_default:
-  - portmap
   - rpcbind
   - nfs-server

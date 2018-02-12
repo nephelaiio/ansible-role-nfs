@@ -5,5 +5,5 @@ nfs_packages_server_default:
 nfs_packages_client_default:
   - nfs-common
 
-nfs_service_names_defeault:
+nfs_service_names_default:
   - nfs-kernel-server
