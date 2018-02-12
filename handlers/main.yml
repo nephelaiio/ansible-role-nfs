@@ -4,4 +4,4 @@
     name: "{{ item }}"
     state: restarted
   become: "yes"
-  with_items: "{{ nfs_service_names }}"
+  with_items: "{{ nfs_service_names | default(nfs_service_names_default) }}"
