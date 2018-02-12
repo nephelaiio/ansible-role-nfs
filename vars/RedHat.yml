@@ -1,7 +1,11 @@
 ---
-nfs_packages_default:
+nfs_packages_client_default:
   - nfs-utils
 
+nfs_packages_server_default:
+  - portmap
+
 nfs_service_names_default:
+  - portmap
   - rpcbind
   - nfs-server
