@@ -43,5 +43,5 @@
     name: "{{ item }}"
     state: "{{ nfs_service_status }}"
     enabled: "{{ nfs_service_enabled }}"
-  with_items: "{{ nfs_service_names }}"
+  with_items: "{{ nfs_service_names | default(nfs_service_names_default) }}"
   when: nfs_server
