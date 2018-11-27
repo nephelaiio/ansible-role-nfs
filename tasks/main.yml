@@ -38,10 +38,20 @@
   when: nfs_server
   notify: restart nfs
 
-- name: manage nfs services
+- name: manage nfs server services
   service:
     name: "{{ item }}"
     state: "{{ nfs_service_status }}"
     enabled: "{{ nfs_service_enabled }}"
-  with_items: "{{ nfs_service_names | default(nfs_service_names_default) }}"
-  when: nfs_server
+  with_items: "{{ nfs_server_services }}"
+  when:
+    - nfs_server
+    - nfs_server_services is defined
+
+- name: manage nfs client services
+  service:
+    name: "{{ item }}"
+    state: started
+    enabled: yes
+  with_items: "{{ nfs_client_services }}"
+  when: nfs_client_services is defined

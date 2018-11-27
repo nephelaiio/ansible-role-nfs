@@ -5,7 +5,7 @@
 
 nfs_packages_state: present
 
-# nfs_service_names:
+# nfs_server_services:
 
 nfs_service_status: started
 
