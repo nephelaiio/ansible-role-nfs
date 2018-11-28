@@ -8,3 +8,6 @@ nfs_packages_server_default:
 nfs_service_names_default:
   - rpcbind
   - nfs-server
+
+nfs_client_services:
+  - rpcbind

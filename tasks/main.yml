@@ -41,12 +41,10 @@
 - name: manage nfs server services
   service:
     name: "{{ item }}"
-    state: "{{ nfs_service_status }}"
+    state: "{{ nfs_service_names }}"
     enabled: "{{ nfs_service_enabled }}"
-  with_items: "{{ nfs_server_services }}"
-  when:
-    - nfs_server
-    - nfs_server_services is defined
+  with_items: "{{ nfs_service_names | default(nfs_service_names_default) }}"
+  when: nfs_server
 
 - name: manage nfs client services
   service:
