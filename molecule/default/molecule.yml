@@ -25,7 +25,7 @@ platforms:
     volume_mounts:
       - "/sys/fs/cgroup:/sys/fs/cgroup:ro"
   - name: arch
-    image: base/archlinux:latest
+    image: archlinux/base:latest
     privileged: True
     command: /usr/sbin/init
     volume_mounts:
