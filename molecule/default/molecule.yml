@@ -6,20 +6,26 @@ driver:
 lint:
   name: yamllint
 platforms:
-  - name: centos
+  - name: centos7
     image: centos/systemd:latest
     privileged: True
     command: /usr/sbin/init
     volume_mounts:
       - "/sys/fs/cgroup:/sys/fs/cgroup:ro"
-  - name: ubuntu
-    image: solita/ubuntu-systemd:latest
+  - name: stretch
+    image: debian:stretch
     privileged: True
     command: /sbin/init
     volume_mounts:
       - "/sys/fs/cgroup:/sys/fs/cgroup:ro"
-  - name: debian
-    image: debian:stretch
+  - name: xenial
+    image: ubuntu:xenial
+    privileged: True
+    command: /sbin/init
+    volume_mounts:
+      - "/sys/fs/cgroup:/sys/fs/cgroup:ro"
+  - name: bionic
+    image: ubuntu:bionic
     privileged: True
     command: /sbin/init
     volume_mounts:
