@@ -23,7 +23,7 @@ You can customize them as a list of /etc/exports file entries:
 ```
 nfs_exports:
   - / *(ro,fsid=0)
-  - /home *(rw,sync,nohide)  
+  - /home *(rw,sync,nohide)
 ```
 
 Please refer to the [defaults file](/defaults/main.yml) for an up to date list of input parameters.

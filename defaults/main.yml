@@ -1,20 +1,11 @@
 ---
 # nfs_packages_client:
-
 # nfs_packages_server:
-
-nfs_packages_state: present
-
 # nfs_server_services:
-
+nfs_packages_state: present
 nfs_service_status: started
-
 nfs_service_enabled: yes
-
 nfs_server: yes
-
 nfs_conf_template: exports.j2
-
 nfs_conf_path: /etc/exports
-
 nfs_exports: []
