@@ -7,3 +7,4 @@ nfs_packages_client_default:
 
 nfs_service_names_default:
   - nfs-kernel-server
+  - rpc-statd
