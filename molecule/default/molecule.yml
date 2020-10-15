@@ -3,8 +3,10 @@ dependency:
   name: galaxy
 driver:
   name: docker
-lint:
-  name: yamllint
+lint: |
+  set -e
+  yamllint .
+  ansible-lint .
 platforms:
   - name: centos7
     image: centos/systemd:latest
@@ -32,11 +34,7 @@ platforms:
       - "/sys/fs/cgroup:/sys/fs/cgroup:ro"
 provisioner:
   name: ansible
-  lint:
-    name: ansible-lint
 scenario:
   name: default
 verifier:
   name: testinfra
-  lint:
-    name: flake8
