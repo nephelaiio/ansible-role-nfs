@@ -1,9 +1,0 @@
----
-nfs_packages_client_default:
-  - nfs-utils
-
-nfs_packages_server_default:
-  - nfs-utils
-
-nfs_service_names_default:
-  - nfs-server

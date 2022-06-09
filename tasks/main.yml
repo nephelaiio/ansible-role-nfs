@@ -1,49 +1,51 @@
 ---
-- name: include variable overrides
-  include_vars: "{{ item }}"
-  with_first_found:
-    - files:
-        - "vars/{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
-        - "vars/{{ ansible_distribution }}.yml"
-        - "vars/{{ ansible_os_family }}.yml"
-        - "vars/main.yml"
+- name: set variable overrides
+  set_fact:
+    _nfs_packages_server: "{{ nfs_packages_server | default(nfs_packages_server_default | sorted_get(overrides)) }}"
+    _nfs_packages_client: "{{ nfs_packages_client | default(nfs_packages_client_default | sorted_get(overrides)) }}"
+    _nfs_services_server: "{{ nfs_services_server | default(nfs_services_server_default | sorted_get(overrides)) }}"
+    _nfs_services_client: "{{ nfs_services_client | default(nfs_services_client_default | sorted_get(overrides)) }}"
+  vars:
+    overrides:
+      - "{{ ansible_distribution | lower }}-{{ ansible_distribution_release | lower }}"
+      - "{{ ansible_distribution | lower }}-{{ ansible_distribution_major_version }}"
+      - "{{ ansible_distribution | lower }}"
+      - "{{ ansible_os_family | lower }}"
+      - "default"
 
 - name: install nfs client packages
   package:
-    name: "{{ item }}"
+    name: "{{ _nfs_packages_client }}"
     state: "{{ nfs_packages_state }}"
-  with_items: "{{ nfs_packages_client | default(nfs_packages_client_default) }}"
+  with_items:
 
 - name: install nfs server packages
   package:
-    name: "{{ item }}"
+    name: "{{ _nfs_packages_server }}"
     state: "{{ nfs_packages_state }}"
-  with_items: "{{ nfs_packages_server | default(nfs_packages_server_default) }}"
   when: nfs_server
 
 - name: create nfs export directories
   file:
     path: "{{ item.strip().split()[0] }}"
     state: directory
-  with_items: "{{ nfs_exports }}"
+  loop: "{{ nfs_exports }}"
   when: nfs_server
-  notify: restart nfs
+  notify: reload nfs
 
 - name: configure nfs exports
   template:
     src: "{{ nfs_conf_template }}"
     dest: "{{ nfs_conf_path }}"
-  vars:
-    exports: "{{ nfs_exports }}"
   when: nfs_server
-  notify: restart nfs
+  notify: reload nfs
 
 - name: manage nfs server services
   service:
     name: "{{ item }}"
     state: "{{ nfs_service_status }}"
     enabled: "{{ nfs_service_enabled }}"
-  with_items: "{{ nfs_service_names | default(nfs_service_names_default) }}"
+  loop: "{{ _nfs_services_server }}"
   when: nfs_server
 
 - name: manage nfs client services
@@ -51,5 +53,5 @@
     name: "{{ item }}"
     state: started
     enabled: yes
-  with_items: "{{ nfs_client_services }}"
-  when: nfs_client_services is defined
+  loop: "{{ nfs_client_services }}"
+  when: nfs_client_services | length > 0

@@ -1,7 +1,37 @@
 ---
-# nfs_packages_client:
-# nfs_packages_server:
-# nfs_server_services:
+nfs_packages_server_default:
+  default:
+    - nfs-kernel-server
+  archlinux:
+    - nfs-utils
+  redhat:
+    - portmap
+
+nfs_packages_client_default:
+  default:
+    - nfs-common
+  archlinux:
+    - nfs-utils
+  redhat:
+    - nfs-utils
+
+nfs_services_server_default:
+  default:
+    - nfs-kernel-server
+  debian:
+    - nfs-kernel-server
+    - rpc-statd
+  archlinux:
+    - nfs-server
+  redhat:
+    - rpcbind
+    - nfs-server
+
+nfs_services_client_default:
+  default: []
+  redhat:
+    - rpcbind
+
 nfs_packages_state: present
 nfs_service_status: started
 nfs_service_enabled: yes

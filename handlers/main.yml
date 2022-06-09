@@ -1,7 +1,5 @@
 ---
-- name: restart nfs
-  service:
-    name: "{{ item }}"
-    state: restarted
+- name: reload nfs
+  command: >-
+    exportfs -ra
   become: "yes"
-  with_items: "{{ nfs_service_names | default(nfs_service_names_default) }}"

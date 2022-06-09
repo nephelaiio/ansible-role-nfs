@@ -1,6 +1,8 @@
 ---
 galaxy_info:
-  author: Ted Cook
+  role_name: nfs
+  namespace: nephelaiio
+  author: nephelaiio
   description: An Ansible role to install and configure nfs
   license: MIT
   min_ansible_version: 2.3
@@ -20,4 +22,5 @@ galaxy_info:
   galaxy_tags:
     - nfs
 
-dependencies: []
+dependencies:
+  - name: nephelaiio.plugins
