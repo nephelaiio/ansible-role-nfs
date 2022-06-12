@@ -1,11 +1,17 @@
 ---
-- name: Converge
+- name: converge
+
   hosts: all
-  pre_tasks:
-    - name: update apt package cache
-      apt:
-        update_cache: yes
-      when: (ansible_os_family | lower) == 'debian'
-      changed_when: false
+
   roles:
-    - role: nephelaiio.packetbeat
+
+    - nephelaiio.plugins
+    - nephelaiio.nfs
+
+  pre_tasks:
+
+    - name: update apt package cache
+      ansible.builtin.apt:
+        update_cache: yes
+      when: ansible_os_family == 'Debian'
+      changed_when: false

@@ -1,6 +1,6 @@
 ---
 - name: set variable overrides
-  set_fact:
+  ansible.builtin.set_fact:
     _nfs_packages_server: "{{ nfs_packages_server | default(nfs_packages_server_default | sorted_get(overrides)) }}"
     _nfs_packages_client: "{{ nfs_packages_client | default(nfs_packages_client_default | sorted_get(overrides)) }}"
     _nfs_services_server: "{{ nfs_services_server | default(nfs_services_server_default | sorted_get(overrides)) }}"
@@ -14,19 +14,18 @@
       - "default"
 
 - name: install nfs client packages
-  package:
+  ansible.builtin.package:
     name: "{{ _nfs_packages_client }}"
     state: "{{ nfs_packages_state }}"
-  with_items:
 
 - name: install nfs server packages
-  package:
+  ansible.builtin.package:
     name: "{{ _nfs_packages_server }}"
     state: "{{ nfs_packages_state }}"
   when: nfs_server
 
 - name: create nfs export directories
-  file:
+  ansible.builtin.file:
     path: "{{ item.strip().split()[0] }}"
     state: directory
   loop: "{{ nfs_exports }}"
@@ -34,14 +33,14 @@
   notify: reload nfs
 
 - name: configure nfs exports
-  template:
+  ansible.builtin.template:
     src: "{{ nfs_conf_template }}"
     dest: "{{ nfs_conf_path }}"
   when: nfs_server
   notify: reload nfs
 
 - name: manage nfs server services
-  service:
+  ansible.builtin.service:
     name: "{{ item }}"
     state: "{{ nfs_service_status }}"
     enabled: "{{ nfs_service_enabled }}"
@@ -49,7 +48,7 @@
   when: nfs_server
 
 - name: manage nfs client services
-  service:
+  ansible.builtin.service:
     name: "{{ item }}"
     state: started
     enabled: yes
