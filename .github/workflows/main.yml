@@ -47,11 +47,11 @@ jobs:
     strategy:
       matrix:
         image:
-          - geerlingguy/docker-ubuntu2004-ansible:latest
-          - geerlingguy/docker-ubuntu1804-ansible:latest
-          - geerlingguy/docker-ubuntu1604-ansible:latest
-          - geerlingguy/docker-debian10-ansible:latest
-          - geerlingguy/docker-centos7-ansible:latest
+          - ubuntu2004
+          - ubuntu1804
+          - ubuntu1604
+          - debian10
+          - centos7
 
     steps:
       - name: Check out the codebase.
@@ -71,7 +71,7 @@ jobs:
         run: poetry install
 
       - name: Run Molecule tests.
-        run: poetry run molecule test | tee ci.log
+        run: poetry run molecule test | tee ${{ matrix.image }}.ci.log
         env:
           PY_COLORS: '1'
           ANSIBLE_FORCE_COLOR: '1'
@@ -79,15 +79,16 @@ jobs:
 
       - name: Commit ci log
         run: |
-          cd ${{ github.repository }}
+          cd ${{ GITHUB_WORKSPACE }}
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add ci.log
-          git commit -m "Add ci log"
+          git add *.ci.log
+          git commit -m "Add ci logs"
+
       - name: save to master branch
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          directory: ${{ github.repository }}
+          directory: ${{ GITHUB_WORKSPACE }}
           force: true
           branch: master
