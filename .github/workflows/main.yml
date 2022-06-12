@@ -71,7 +71,7 @@ jobs:
         run: poetry install
 
       - name: Run Molecule tests.
-        run: poetry run molecule test | tee ${{ matrix.image }}.ci.log
+        run: poetry run tox | tee ${{ matrix.image }}.ci.log
         env:
           PY_COLORS: '1'
           ANSIBLE_FORCE_COLOR: '1'
@@ -79,7 +79,7 @@ jobs:
 
       - name: Commit ci log
         run: |
-          cd ${{ github.repository }}/nephelaiio.nfs
+          cd $GITHUB_WORKSPACE/nephelaiio.nfs
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add *.ci.log
