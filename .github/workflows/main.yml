@@ -85,10 +85,10 @@ jobs:
           git add *.ci.log
           git commit -m "Add ci logs"
 
-      - name: save to master branch
+      - name: Push to master branch
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          directory: $GITHUB_WORKSPACE
+          directory: ${{ GITHUB_WORKSPACE }}/nephelaiio.nfs
           force: true
           branch: master
