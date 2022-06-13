@@ -1,7 +1,7 @@
 [1mpy310-ansible-4 create: /home/runner/work/ansible-role-nfs/ansible-role-nfs/nephelaiio.nfs/.tox/py310-ansible-4
 [0m[1mpy310-ansible-4 installdeps: ansible == 4.*, molecule[docker], netaddr, docker == 5.*, ansible-lint == 5.*, markupsafe == 2.0.1
 [0m[1mpy310-ansible-4 installed: ansible==4.10.0,ansible-compat==2.1.0,ansible-core==2.11.12,ansible-lint==5.4.0,arrow==1.2.2,attrs==21.4.0,bcrypt==3.2.2,binaryornot==0.4.4,bracex==2.3.post1,Cerberus==1.3.2,certifi==2022.5.18.1,cffi==1.15.0,chardet==4.0.0,charset-normalizer==2.0.12,click==8.1.3,click-help-colors==0.9.1,commonmark==0.9.1,cookiecutter==2.1.1,cryptography==37.0.2,distro==1.7.0,docker==5.0.3,enrich==1.2.7,idna==3.3,Jinja2==3.1.2,jinja2-time==0.2.0,jsonschema==4.6.0,MarkupSafe==2.0.1,molecule==3.6.1,molecule-docker==1.1.0,netaddr==0.8.0,packaging==21.3,paramiko==2.11.0,pluggy==1.0.0,pycparser==2.21,Pygments==2.12.0,PyNaCl==1.5.0,pyparsing==3.0.9,pyrsistent==0.18.1,python-dateutil==2.8.2,python-slugify==6.1.2,PyYAML==6.0,requests==2.28.0,resolvelib==0.5.4,rich==12.4.4,ruamel.yaml==0.17.21,ruamel.yaml.clib==0.2.6,selinux==0.2.1,six==1.16.0,subprocess-tee==0.3.5,tenacity==8.0.1,text-unidecode==1.3,urllib3==1.26.9,wcmatch==8.4,websocket-client==1.3.2
-[0m[1mpy310-ansible-4 run-test-pre: PYTHONHASHSEED='816106207'
+[0m[1mpy310-ansible-4 run-test-pre: PYTHONHASHSEED='2475091745'
 [0m[1mpy310-ansible-4 run-test: commands[0] | molecule test
 [0m[34mINFO    [0m default scenario test matrix: dependency, lint, cleanup, destroy, syntax, create, prepare, converge, idempotence, side_effect, verify, cleanup, destroy
 [34mINFO    [0m Performing prerun[33m...[0m
@@ -73,8 +73,7 @@ TASK [Wait for instance(s) creation to complete] *******************************
 [1;30mFAILED - RETRYING: Wait for instance(s) creation to complete (298 retries left).[0m
 [1;30mFAILED - RETRYING: Wait for instance(s) creation to complete (297 retries left).[0m
 [1;30mFAILED - RETRYING: Wait for instance(s) creation to complete (296 retries left).[0m
-[1;30mFAILED - RETRYING: Wait for instance(s) creation to complete (295 retries left).[0m
-[33mchanged: [localhost] => (item={'started': 1, 'finished': 0, 'ansible_job_id': '37792123017.2107', 'results_file': '/home/runner/.ansible_async/37792123017.2107', 'changed': True, 'failed': False, 'item': {'command': '', 'image': 'geerlingguy/docker-centos7-ansible:latest', 'name': 'instance', 'pre_build_image': True, 'privileged': True, 'volumes': ['/sys/fs/cgroup:/sys/fs/cgroup:ro']}, 'ansible_loop_var': 'item'})[0m
+[33mchanged: [localhost] => (item={'started': 1, 'finished': 0, 'ansible_job_id': '300798751468.2168', 'results_file': '/home/runner/.ansible_async/300798751468.2168', 'changed': True, 'failed': False, 'item': {'command': '', 'image': 'geerlingguy/docker-centos7-ansible:latest', 'name': 'instance', 'pre_build_image': True, 'privileged': True, 'volumes': ['/sys/fs/cgroup:/sys/fs/cgroup:ro']}, 'ansible_loop_var': 'item'})[0m
 
 PLAY RECAP *********************************************************************
 [33mlocalhost[0m                  : [32mok=5   [0m [33mchanged=2   [0m unreachable=0    failed=0    [36mskipped=4   [0m rescued=0    ignored=0
@@ -158,9 +157,45 @@ PLAY RECAP *********************************************************************
 
 [34mINFO    [0m Idempotence completed successfully.
 [34mINFO    [0m [2;36mRunning [0m[2;32mdefault[0m[2;36m > [0m[2;32mside_effect[0m
-[31mWARNING [0m Skipping, side effect playbook not configured.
-[34mINFO    [0m [2;36mRunning [0m[2;32mdefault[0m[2;36m > [0m[2;32mverify[0m
-[31mWARNING [0m Skipping, no tests found.
+
+PLAY [update] ******************************************************************
+
+TASK [Gathering Facts] *********************************************************
+[32mok: [instance][0m
+
+TASK [nephelaiio.nfs : set variable overrides] *********************************
+[32mok: [instance][0m
+
+TASK [nephelaiio.nfs : install nfs client packages] ****************************
+[32mok: [instance][0m
+
+TASK [nephelaiio.nfs : install nfs server packages] ****************************
+[32mok: [instance][0m
+
+TASK [nephelaiio.nfs : create nfs export directories] **************************
+[33mchanged: [instance] => (item=/var/nfs/backups -sec=sys,rw,anon=0)[0m
+
+TASK [nephelaiio.nfs : configure nfs exports] **********************************
+[33mchanged: [instance][0m
+
+TASK [nephelaiio.nfs : manage nfs server services] *****************************
+[32mok: [instance] => (item=rpcbind)[0m
+[32mok: [instance] => (item=nfs-server)[0m
+
+TASK [nephelaiio.nfs : manage nfs client services] *****************************
+[32mok: [instance] => (item=rpcbind)[0m
+
+RUNNING HANDLER [nephelaiio.nfs : reload nfs] **********************************
+[31mfatal: [instance]: FAILED! => {"changed": true, "cmd": ["exportfs", "-ra"], "delta": "0:00:00.522931", "end": "2022-06-13 03:37:17.458568", "msg": "non-zero return code", "rc": 1, "start": "2022-06-13 03:37:16.935637", "stderr": "exportfs: /etc/exports:1: unknown keyword \"anon=0\"", "stderr_lines": ["exportfs: /etc/exports:1: unknown keyword \"anon=0\""], "stdout": "", "stdout_lines": []}[0m
+
+NO MORE HOSTS LEFT *************************************************************
+
+PLAY RECAP *********************************************************************
+[31minstance[0m                   : [32mok=8   [0m [33mchanged=2   [0m unreachable=0    [31mfailed=1   [0m skipped=0    rescued=0    ignored=0
+
+[31mWARNING [0m Retrying execution failure [1;36m2[0m of: ansible-playbook --inventory [35m/home/runner/.cache/molecule/nephelaiio.nfs/default/[0m[95minventory[0m --skip-tags molecule-notest,notest [35m/home/runner/work/ansible-role-nfs/ansible-role-nfs/nephelaiio.nfs/molecule/default/[0m[95mupdate.yml[0m
+[1;31mCRITICAL[0m Ansible return code was [1;36m2[0m, command was: [1m[[0m[32m'ansible-playbook'[0m, [32m'--inventory'[0m, [32m'/home/runner/.cache/molecule/nephelaiio.nfs/default/inventory'[0m, [32m'--skip-tags'[0m, [32m'molecule-notest,notest'[0m, [32m'/home/runner/work/ansible-role-nfs/ansible-role-nfs/nephelaiio.nfs/molecule/default/update.yml'[0m[1m][0m
+[31mWARNING [0m An error occurred during the test sequence action: [32m'side_effect'[0m. Cleaning up.
 [34mINFO    [0m [2;36mRunning [0m[2;32mdefault[0m[2;36m > [0m[2;32mcleanup[0m
 [31mWARNING [0m Skipping, cleanup playbook not configured.
 [34mINFO    [0m [2;36mRunning [0m[2;32mdefault[0m[2;36m > [0m[2;32mdestroy[0m
@@ -175,10 +210,11 @@ PLAY RECAP *********************************************************************
 [33mlocalhost[0m                  : [32mok=1   [0m [33mchanged=1   [0m unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 
 [34mINFO    [0m Pruning extra files from scenario ephemeral directory
-[1mpy310-ansible-5 create: /home/runner/work/ansible-role-nfs/ansible-role-nfs/nephelaiio.nfs/.tox/py310-ansible-5
+[31mERROR: InvocationError for command /home/runner/work/ansible-role-nfs/ansible-role-nfs/nephelaiio.nfs/.tox/py310-ansible-4/bin/molecule test (exited with code 1)
+[0m[1mpy310-ansible-5 create: /home/runner/work/ansible-role-nfs/ansible-role-nfs/nephelaiio.nfs/.tox/py310-ansible-5
 [0m[1mpy310-ansible-5 installdeps: ansible == 5.*, molecule[docker], netaddr, docker == 5.*, ansible-lint == 5.*, markupsafe == 2.0.1
 [0m[1mpy310-ansible-5 installed: ansible==5.9.0,ansible-compat==2.1.0,ansible-core==2.12.6,ansible-lint==5.4.0,arrow==1.2.2,attrs==21.4.0,bcrypt==3.2.2,binaryornot==0.4.4,bracex==2.3.post1,Cerberus==1.3.2,certifi==2022.5.18.1,cffi==1.15.0,chardet==4.0.0,charset-normalizer==2.0.12,click==8.1.3,click-help-colors==0.9.1,commonmark==0.9.1,cookiecutter==2.1.1,cryptography==37.0.2,distro==1.7.0,docker==5.0.3,enrich==1.2.7,idna==3.3,Jinja2==3.1.2,jinja2-time==0.2.0,jsonschema==4.6.0,MarkupSafe==2.0.1,molecule==3.6.1,molecule-docker==1.1.0,netaddr==0.8.0,packaging==21.3,paramiko==2.11.0,pluggy==1.0.0,pycparser==2.21,Pygments==2.12.0,PyNaCl==1.5.0,pyparsing==3.0.9,pyrsistent==0.18.1,python-dateutil==2.8.2,python-slugify==6.1.2,PyYAML==6.0,requests==2.28.0,resolvelib==0.5.4,rich==12.4.4,ruamel.yaml==0.17.21,ruamel.yaml.clib==0.2.6,selinux==0.2.1,six==1.16.0,subprocess-tee==0.3.5,tenacity==8.0.1,text-unidecode==1.3,urllib3==1.26.9,wcmatch==8.4,websocket-client==1.3.2
-[0m[1mpy310-ansible-5 run-test-pre: PYTHONHASHSEED='816106207'
+[0m[1mpy310-ansible-5 run-test-pre: PYTHONHASHSEED='2475091745'
 [0m[1mpy310-ansible-5 run-test: commands[0] | molecule test
 [0m[34mINFO    [0m default scenario test matrix: dependency, lint, cleanup, destroy, syntax, create, prepare, converge, idempotence, side_effect, verify, cleanup, destroy
 [34mINFO    [0m Performing prerun[33m...[0m
@@ -245,7 +281,7 @@ TASK [Create molecule instance(s)] *********************************************
 
 TASK [Wait for instance(s) creation to complete] *******************************
 [1;30mFAILED - RETRYING: [localhost]: Wait for instance(s) creation to complete (300 retries left).[0m
-[33mchanged: [localhost] => (item={'failed': 0, 'started': 1, 'finished': 0, 'ansible_job_id': '199547353521.6609', 'results_file': '/home/runner/.ansible_async/199547353521.6609', 'changed': True, 'item': {'command': '', 'image': 'geerlingguy/docker-centos7-ansible:latest', 'name': 'instance', 'pre_build_image': True, 'privileged': True, 'volumes': ['/sys/fs/cgroup:/sys/fs/cgroup:ro']}, 'ansible_loop_var': 'item'})[0m
+[33mchanged: [localhost] => (item={'failed': 0, 'started': 1, 'finished': 0, 'ansible_job_id': '87325834777.8663', 'results_file': '/home/runner/.ansible_async/87325834777.8663', 'changed': True, 'item': {'command': '', 'image': 'geerlingguy/docker-centos7-ansible:latest', 'name': 'instance', 'pre_build_image': True, 'privileged': True, 'volumes': ['/sys/fs/cgroup:/sys/fs/cgroup:ro']}, 'ansible_loop_var': 'item'})[0m
 
 PLAY RECAP *********************************************************************
 [33mlocalhost[0m                  : [32mok=5   [0m [33mchanged=2   [0m unreachable=0    failed=0    [36mskipped=4   [0m rescued=0    ignored=0
@@ -329,9 +365,45 @@ PLAY RECAP *********************************************************************
 
 [34mINFO    [0m Idempotence completed successfully.
 [34mINFO    [0m [2;36mRunning [0m[2;32mdefault[0m[2;36m > [0m[2;32mside_effect[0m
-[31mWARNING [0m Skipping, side effect playbook not configured.
-[34mINFO    [0m [2;36mRunning [0m[2;32mdefault[0m[2;36m > [0m[2;32mverify[0m
-[31mWARNING [0m Skipping, no tests found.
+
+PLAY [update] ******************************************************************
+
+TASK [Gathering Facts] *********************************************************
+[32mok: [instance][0m
+
+TASK [nephelaiio.nfs : set variable overrides] *********************************
+[32mok: [instance][0m
+
+TASK [nephelaiio.nfs : install nfs client packages] ****************************
+[32mok: [instance][0m
+
+TASK [nephelaiio.nfs : install nfs server packages] ****************************
+[32mok: [instance][0m
+
+TASK [nephelaiio.nfs : create nfs export directories] **************************
+[33mchanged: [instance] => (item=/var/nfs/backups -sec=sys,rw,anon=0)[0m
+
+TASK [nephelaiio.nfs : configure nfs exports] **********************************
+[33mchanged: [instance][0m
+
+TASK [nephelaiio.nfs : manage nfs server services] *****************************
+[32mok: [instance] => (item=rpcbind)[0m
+[32mok: [instance] => (item=nfs-server)[0m
+
+TASK [nephelaiio.nfs : manage nfs client services] *****************************
+[32mok: [instance] => (item=rpcbind)[0m
+
+RUNNING HANDLER [nephelaiio.nfs : reload nfs] **********************************
+[31mfatal: [instance]: FAILED! => {"changed": true, "cmd": ["exportfs", "-ra"], "delta": "0:00:00.518898", "end": "2022-06-13 03:42:01.369730", "msg": "non-zero return code", "rc": 1, "start": "2022-06-13 03:42:00.850832", "stderr": "exportfs: /etc/exports:1: unknown keyword \"anon=0\"", "stderr_lines": ["exportfs: /etc/exports:1: unknown keyword \"anon=0\""], "stdout": "", "stdout_lines": []}[0m
+
+NO MORE HOSTS LEFT *************************************************************
+
+PLAY RECAP *********************************************************************
+[31minstance[0m                   : [32mok=8   [0m [33mchanged=2   [0m unreachable=0    [31mfailed=1   [0m skipped=0    rescued=0    ignored=0
+
+[31mWARNING [0m Retrying execution failure [1;36m2[0m of: ansible-playbook --inventory [35m/home/runner/.cache/molecule/nephelaiio.nfs/default/[0m[95minventory[0m --skip-tags molecule-notest,notest [35m/home/runner/work/ansible-role-nfs/ansible-role-nfs/nephelaiio.nfs/molecule/default/[0m[95mupdate.yml[0m
+[1;31mCRITICAL[0m Ansible return code was [1;36m2[0m, command was: [1m[[0m[32m'ansible-playbook'[0m, [32m'--inventory'[0m, [32m'/home/runner/.cache/molecule/nephelaiio.nfs/default/inventory'[0m, [32m'--skip-tags'[0m, [32m'molecule-notest,notest'[0m, [32m'/home/runner/work/ansible-role-nfs/ansible-role-nfs/nephelaiio.nfs/molecule/default/update.yml'[0m[1m][0m
+[31mWARNING [0m An error occurred during the test sequence action: [32m'side_effect'[0m. Cleaning up.
 [34mINFO    [0m [2;36mRunning [0m[2;32mdefault[0m[2;36m > [0m[2;32mcleanup[0m
 [31mWARNING [0m Skipping, cleanup playbook not configured.
 [34mINFO    [0m [2;36mRunning [0m[2;32mdefault[0m[2;36m > [0m[2;32mdestroy[0m
@@ -346,8 +418,8 @@ PLAY RECAP *********************************************************************
 [33mlocalhost[0m                  : [32mok=1   [0m [33mchanged=1   [0m unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 
 [34mINFO    [0m Pruning extra files from scenario ephemeral directory
-___________________________________ summary ____________________________________
-[32m  py310-ansible-4: commands succeeded
-[0m[32m  py310-ansible-5: commands succeeded
-[0m[32m  congratulations :)
+[31mERROR: InvocationError for command /home/runner/work/ansible-role-nfs/ansible-role-nfs/nephelaiio.nfs/.tox/py310-ansible-5/bin/molecule test (exited with code 1)
+[0m___________________________________ summary ____________________________________
+[31mERROR:   py310-ansible-4: commands failed
+[0m[31mERROR:   py310-ansible-5: commands failed
 [0m
