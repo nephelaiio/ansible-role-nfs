@@ -54,6 +54,7 @@ jobs:
           - centos7
 
     steps:
+
       - name: Check out the codebase.
         uses: actions/checkout@v2
         with:
@@ -80,7 +81,6 @@ jobs:
       - name: Commit ci log
         run: |
           cd $GITHUB_WORKSPACE/nephelaiio.nfs
-          pwd
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add *.ci.log
@@ -90,6 +90,6 @@ jobs:
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          directory: ${{ github.repository }}/nephelaiio.nfs
+          directory: nephelaiio.nfs
           force: true
           branch: master
