@@ -5,14 +5,19 @@
 
   gather_facts: true
 
+  become: true
+
   tasks:
 
-    - name: gather service facts
-      ansible.builtin.service_facts:
+    - name: mount nfs volume
+      ansible.posix.mount:
+        src: localhost:/nfs/ssd/shared_data
+        path: /var/nfs/backups
+        opts: rw,sync,hard,intr
+        state: mounted
+        fstype: nfs
 
-    - block:
-
-        - debug:
-            var: services
-
-      when: ansible_os_family == 'Debian'
+    - name: test nfs mount
+      ansible.builtin.copy:
+        dest: /var/nfs/backups/test
+        content: molecule ci
