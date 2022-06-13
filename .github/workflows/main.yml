@@ -78,15 +78,15 @@ jobs:
           ANSIBLE_FORCE_COLOR: '1'
           MOLECULE_DOCKER_IMAGE: ${{ matrix.image }}
 
-      - name: Commit ci log
+      - name: Update ci log
         run: |
           cd $GITHUB_WORKSPACE/nephelaiio.nfs
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add *.ci.log
-          git commit -m "Add ci logs"
+          git commit -m "Update CI logs"
 
-      - name: Push to master branch
+      - name: Push ci log
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}

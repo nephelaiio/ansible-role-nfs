@@ -1,0 +1,14 @@
+---
+- name: update
+
+  hosts: all
+
+  vars:
+
+    nfs_exports:
+      - /var/nfs/backups -sec=sys,rw,anon=0
+
+  roles:
+
+    - nephelaiio.plugins
+    - nephelaiio.nfs
