@@ -52,5 +52,5 @@
     name: "{{ item }}"
     state: started
     enabled: yes
-  loop: "{{ nfs_client_services }}"
-  when: nfs_client_services | length > 0
+  loop: "{{ nfs_services_client }}"
+  when: nfs_services_client | length > 0
