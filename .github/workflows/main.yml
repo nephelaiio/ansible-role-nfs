@@ -1,5 +1,5 @@
 ---
-name: CI
+name: Molecule
 
 on:
   pull_request:
@@ -7,7 +7,7 @@ on:
     branches:
       - master
   schedule:
-    - cron: "0 5 * * 0"
+    - cron: "0 5 * * 5"
 
 defaults:
   run:
@@ -72,24 +72,8 @@ jobs:
         run: poetry install
 
       - name: Run Molecule tests.
-        run: poetry run tox | tee ${{ matrix.image }}.ci.log
+        run: poetry run tox
         env:
           PY_COLORS: '1'
           ANSIBLE_FORCE_COLOR: '1'
           MOLECULE_DOCKER_IMAGE: ${{ matrix.image }}
-
-      - name: Update ci log
-        run: |
-          cd $GITHUB_WORKSPACE/nephelaiio.nfs
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
-          git add *.ci.log
-          git commit -m "Update CI logs"
-
-      - name: Push ci log
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          directory: nephelaiio.nfs
-          force: true
-          branch: master
