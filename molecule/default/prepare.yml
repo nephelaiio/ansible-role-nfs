@@ -3,6 +3,19 @@
 
   hosts: all
 
-  gather_facts: false
+  gather_facts: true
 
-  tasks: []
+  become: true
+
+  tasks:
+
+    - name: installl nfs client on host
+      ansible.builtin.package:
+        name: nfs-common
+      delegate_to: localhost
+
+    - name: update apt package cache
+      ansible.builtin.apt:
+        update_cache: yes
+      when: ansible_os_family == 'Debian'
+      changed_when: false

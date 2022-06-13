@@ -138,8 +138,8 @@ testing = ["coverage (>=4)", "coverage-enable-subprocess (>=1)", "flaky (>=3)", 
 
 [metadata]
 lock-version = "1.1"
-python-versions = "^3.9"
-content-hash = "1594a6b65b193c7324ade83ccfd002ffe7f5f50f381d98e1b8a1c0d2f25411da"
+python-versions = "^3.8"
+content-hash = "a46315231aea4a9a7da7c66478021b0321f1bf6240a5d007a9733c3f1e5ba4f0"
 
 [metadata.files]
 colorama = [

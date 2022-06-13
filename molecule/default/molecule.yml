@@ -12,17 +12,27 @@ driver:
   name: docker
 platforms:
   - name: instance
-    image: "geerlingguy/docker-${MOLECULE_DOCKER_IMAGE}-ansible:latest"
+    image: "geerlingguy/docker-${MOLECULE_DOCKER_IMAGE:-ubuntu2004}-ansible:latest"
     command: ${MOLECULE_DOCKER_COMMAND:-""}
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
     privileged: true
     pre_build_image: true
+    tmpfs:
+      - /tmp
+      - /opt
 provisioner:
   name: ansible
   playbooks:
-    side_effect: update.yml
+    side_effect: side_effect.yml
 scenario:
   name: default
+  check_sequence:
+    - destroy
+    - cleanup
+    - dependency
+    - create
+    - prepare
+    - converge
 verifier:
-  name: testinfra
+  name: ansible

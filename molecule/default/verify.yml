@@ -1,23 +1,32 @@
 ---
 - name: verify
 
-  hosts: localhost
+  hosts: all
 
   gather_facts: true
 
   become: true
 
+  vars:
+
+    mount_path: /mnt/backups
+
   tasks:
+
+    - name: create mount directory
+      ansible.builtin.file:
+        state: directory
+        path: "{{ mount_path }}"
 
     - name: mount nfs volume
       ansible.posix.mount:
-        src: localhost:/nfs/ssd/shared_data
-        path: /var/nfs/backups
-        opts: rw,sync,hard,intr
+        src: "{{ ansible_default_ipv4.address }}:/opt/backups"
+        path: "{{ mount_path }}"
+        opts: defaults,rw
         state: mounted
         fstype: nfs
 
     - name: test nfs mount
       ansible.builtin.copy:
-        dest: /var/nfs/backups/test
+        dest: "{{ mount_path }}/test"
         content: molecule ci

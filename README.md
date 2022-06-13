@@ -33,7 +33,7 @@ Please refer to the [defaults file](/defaults/main.yml) for an up to date list o
 - hosts: nfs
   vars:
      nfs_exports:
-       - /var/nfs/backups -sec=sys,rw,anon=0
+       - /var/nfs/backups ro,sync,no_root_squash,no_subtree_check
   roles:
      - role: nephelaiio.nfs
 ```
