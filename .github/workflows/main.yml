@@ -49,7 +49,6 @@ jobs:
         image:
           - ubuntu2004
           - ubuntu1804
-          - ubuntu1604
           - debian10
           - centos7
 
