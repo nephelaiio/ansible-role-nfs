@@ -19,8 +19,8 @@ nfs_services_server_default:
   default:
     - nfs-kernel-server
   debian:
-    - nfs-kernel-server
     - rpc-statd
+    - nfs-kernel-server
   archlinux:
     - nfs-server
   redhat:
@@ -34,8 +34,8 @@ nfs_services_client_default:
 
 nfs_packages_state: present
 nfs_service_status: started
-nfs_service_enabled: yes
-nfs_server: yes
+nfs_service_enabled: true
+nfs_server: true
 nfs_conf_template: exports.j2
 nfs_conf_path: /etc/exports
 nfs_exports: []
