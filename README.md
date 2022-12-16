@@ -9,7 +9,7 @@ An [ansible role](https://galaxy.ansible.com/nephelaiio/nfs) to install and conf
 
 NFS server configuration is set by default
 ```
-nfs_server: yes
+nfs_server: true
 ```
 Set to false for client-only installation
 
