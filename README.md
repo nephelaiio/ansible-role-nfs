@@ -1,6 +1,6 @@
 # nephelaiio.nfs
 
-[![Build Status](https://github.com/nephelaiio/ansible-role-nfs/workflows/CI/badge.svg)](https://github.com/nephelaiio/ansible-role-nfs/actions)
+[![Build Status](https://github.com/nephelaiio/ansible-role-nfs/workflows/molecule/badge.svg)](https://github.com/nephelaiio/ansible-role-nfs/actions)
 [![Ansible Galaxy](http://img.shields.io/badge/ansible--galaxy-nephelaiio.nfs-blue.svg)](https://galaxy.ansible.com/nephelaiio/nfs/)
 
 An [ansible role](https://galaxy.ansible.com/nephelaiio/nfs) to install and configure nfs

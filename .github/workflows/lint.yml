@@ -1,0 +1,43 @@
+---
+name: lint
+
+on:
+
+  pull_request:
+    branches:
+      - master
+
+defaults:
+
+  run:
+    working-directory: 'nephelaiio.nfs'
+
+jobs:
+
+  lint:
+
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Check out the codebase.
+        uses: actions/checkout@v2
+        with:
+          path: 'nephelaiio.nfs'
+
+      - name: Set up Python 3.
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: install poetry
+        run: pip3 install poetry
+
+      - name: install pips
+        run: poetry install
+
+      - name: Lint code.
+        run: |
+          set -e
+          poetry run yamllint .
+          poetry run ansible-lint .
