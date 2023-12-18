@@ -1,20 +1,15 @@
 ---
-- name: prepare
-
+- name: Prepare
   hosts: all
-
   gather_facts: true
-
   become: true
-
   tasks:
-
-    - name: installl nfs client on host
+    - name: Installl nfs client on host
       ansible.builtin.package:
         name: nfs-common
       delegate_to: localhost
 
-    - name: update apt package cache
+    - name: Update apt package cache
       ansible.builtin.apt:
         update_cache: true
       when: ansible_os_family == 'Debian'
