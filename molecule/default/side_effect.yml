@@ -6,5 +6,4 @@
     nfs_exports:
       - "/opt/backups {{ ansible_default_ipv4.address }}(rw,sync,no_root_squash,no_subtree_check,fsid=0)"
   roles:
-    - nephelaiio.plugins
     - nephelaiio.nfs
