@@ -39,14 +39,14 @@
     state: directory
   loop: "{{ nfs_exports }}"
   when: nfs_server
-  notify: reload nfs
+  notify: reload_nfs
 
 - name: Configure NFS exports
   ansible.builtin.template:
     src: "{{ nfs_conf_template }}"
     dest: "{{ nfs_conf_path }}"
   when: nfs_server
-  notify: reload nfs
+  notify: reload_nfs
 
 - name: Manage Debian services
   ansible.builtin.service:
