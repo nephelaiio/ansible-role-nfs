@@ -18,6 +18,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
+        scenario:
+          - name: default
         image:
           - name: ubuntu2204
             command: /lib/systemd/systemd
