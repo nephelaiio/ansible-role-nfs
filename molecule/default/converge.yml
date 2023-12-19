@@ -1,9 +1,5 @@
 ---
-- name: converge
-
+- name: Converge
   hosts: all
-
   roles:
-
-    - nephelaiio.plugins
     - nephelaiio.nfs

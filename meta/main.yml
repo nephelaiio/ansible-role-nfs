@@ -1,26 +1,26 @@
 ---
 galaxy_info:
   role_name: nfs
-  namespace: nephelaiio
   author: nephelaiio
   description: An Ansible role to install and configure nfs
   license: MIT
-  min_ansible_version: 2.3
+  min_ansible_version: '2.2'
   platforms:
     - name: EL
       versions:
-        - all
-    - name: Archlinux
+        - 'all'
+    - name: ArchLinux
       versions:
-        - all
+        - 'all'
     - name: Ubuntu
       versions:
-        - xenial
+        - 'bionic'
+        - 'jammy'
     - name: Debian
       versions:
-        - stretch
+        - 'bookworm'
+        - 'bullseye'
   galaxy_tags:
     - nfs
 
-dependencies:
-  - name: nephelaiio.plugins
+dependencies: []

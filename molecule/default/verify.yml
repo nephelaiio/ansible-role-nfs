@@ -1,24 +1,17 @@
 ---
-- name: verify
-
+- name: Verify
   hosts: all
-
   gather_facts: true
-
   become: true
-
   vars:
-
     mount_path: /mnt/backups
-
   tasks:
-
-    - name: create mount directory
+    - name: Create mount directory
       ansible.builtin.file:
         state: directory
         path: "{{ mount_path }}"
 
-    - name: mount nfs volume
+    - name: Mount nfs volume
       ansible.posix.mount:
         src: "{{ ansible_default_ipv4.address }}:/opt/backups"
         path: "{{ mount_path }}"
@@ -26,7 +19,7 @@
         state: mounted
         fstype: nfs
 
-    - name: test nfs mount
+    - name: Test nfs mount
       ansible.builtin.copy:
         dest: "{{ mount_path }}/test"
         content: molecule ci

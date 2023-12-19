@@ -1,56 +1,83 @@
 ---
-- name: set variable overrides
-  ansible.builtin.set_fact:
-    _nfs_packages_server: "{{ nfs_packages_server | default(nfs_packages_server_default | sorted_get(overrides)) }}"
-    _nfs_packages_client: "{{ nfs_packages_client | default(nfs_packages_client_default | sorted_get(overrides)) }}"
-    _nfs_services_server: "{{ nfs_services_server | default(nfs_services_server_default | sorted_get(overrides)) }}"
-    _nfs_services_client: "{{ nfs_services_client | default(nfs_services_client_default | sorted_get(overrides)) }}"
-  vars:
-    overrides:
-      - "{{ ansible_distribution | lower }}-{{ ansible_distribution_release | lower }}"
-      - "{{ ansible_distribution | lower }}-{{ ansible_distribution_major_version }}"
-      - "{{ ansible_distribution | lower }}"
-      - "{{ ansible_os_family | lower }}"
-      - "default"
+- name: Install Debian packages
+  when: ansible_os_family == 'Debian'
+  block:
+    - name: Install NFS client packages
+      ansible.builtin.package:
+        name: nfs-common
+        state: "{{ nfs_packages_state }}"
 
-- name: install nfs client packages
+    - name: Install NFS server packages
+      ansible.builtin.package:
+        name: nfs-kernel-server
+        state: "{{ nfs_packages_state }}"
+      when: nfs_server
+
+- name: Install ArchLinux packages
   ansible.builtin.package:
-    name: "{{ _nfs_packages_client }}"
+    name: nfs-common
     state: "{{ nfs_packages_state }}"
+  when: ansible_os_family == 'Archlinux'
 
-- name: install nfs server packages
-  ansible.builtin.package:
-    name: "{{ _nfs_packages_server }}"
-    state: "{{ nfs_packages_state }}"
-  when: nfs_server
+- name: Install RedHat packages
+  when: ansible_os_family == 'RedHat'
+  block:
+    - name: Install NFS client packages
+      ansible.builtin.package:
+        name: nfs-utils
+        state: "{{ nfs_packages_state }}"
 
-- name: create nfs export directories
+    - name: Install NFS server packages
+      ansible.builtin.package:
+        name: portmap
+        state: "{{ nfs_packages_state }}"
+      when: nfs_server
+
+- name: Create NFS export directories
   ansible.builtin.file:
     path: "{{ item.strip().split()[0] }}"
     state: directory
   loop: "{{ nfs_exports }}"
   when: nfs_server
-  notify: reload nfs
+  notify: reload_nfs
 
-- name: configure nfs exports
+- name: Configure NFS exports
   ansible.builtin.template:
     src: "{{ nfs_conf_template }}"
     dest: "{{ nfs_conf_path }}"
   when: nfs_server
-  notify: reload nfs
+  notify: reload_nfs
 
-- name: manage nfs server services
+- name: Manage Debian services
   ansible.builtin.service:
-    name: "{{ item }}"
+    name: nfs-kernel-server
     state: "{{ nfs_service_status }}"
     enabled: "{{ nfs_service_enabled }}"
-  loop: "{{ _nfs_services_server }}"
-  when: nfs_server
+  when:
+    - ansible_os_family == 'Debian'
+    - nfs_server
 
-- name: manage nfs client services
+- name: Manage ArchLinux services
   ansible.builtin.service:
-    name: "{{ item }}"
-    state: started
-    enabled: true
-  loop: "{{ _nfs_services_client }}"
-  when: _nfs_services_client | length > 0
+    name: nfs-server
+    state: "{{ nfs_service_status }}"
+    enabled: "{{ nfs_service_enabled }}"
+  when:
+    - ansible_os_family == 'Archlinux'
+    - nfs_server
+
+- name: Manage RedHat services
+  when: ansible_os_family == 'RedHat'
+  block:
+    - name: Manage NFS server service
+      ansible.builtin.service:
+        name: nfs-server
+        state: "{{ nfs_service_status }}"
+        enabled: "{{ nfs_service_enabled }}"
+      when: nfs_server
+
+    - name: Manage NFS rpcbind service
+      ansible.builtin.service:
+        name: rpcbind
+        state: "{{ nfs_service_status }}"
+        enabled: "{{ nfs_service_enabled }}"
