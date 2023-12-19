@@ -53,7 +53,6 @@
     name: nfs-kernel-server
     state: "{{ nfs_service_status }}"
     enabled: "{{ nfs_service_enabled }}"
-  loop: "{{ _nfs_services_server }}"
   when:
     - ansible_os_family == 'Debian'
     - nfs_server
@@ -63,7 +62,6 @@
     name: nfs-server
     state: "{{ nfs_service_status }}"
     enabled: "{{ nfs_service_enabled }}"
-  loop: "{{ _nfs_services_server }}"
   when:
     - ansible_os_family == 'Archlinux'
     - nfs_server
