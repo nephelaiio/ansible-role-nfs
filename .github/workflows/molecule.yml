@@ -51,6 +51,12 @@ jobs:
       - name: Install dependencies
         run: make poetry
 
+      - name: Debug Docker version
+        run: docker --version
+
+      - name: Debug Docker version
+        run: docker ps
+
       - name: Debug test environment
         run: make debug
 
