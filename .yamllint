@@ -5,11 +5,17 @@ ignore:
   .tox/
 
 rules:
+  comments-indentation: false
+  comments:
+    min-spaces-from-content: 1
   braces:
     max-spaces-inside: 1
     level: error
   brackets:
     max-spaces-inside: 1
     level: error
-  line-length: disable
   truthy: disable
+  line-length: disable
+  octal-values:
+    forbid-implicit-octal: true
+    forbid-explicit-octal: true
