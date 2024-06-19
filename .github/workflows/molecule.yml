@@ -6,6 +6,10 @@ on:
     branches:
       - master
 
+defaults:
+  run:
+    working-directory: 'nephelaiio.docker'
+
 jobs:
   molecule:
     name: molecule
