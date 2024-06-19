@@ -5,16 +5,10 @@ on:
   pull_request:
     branches:
       - master
-  schedule:
-    - cron: "0 3 * * 0"
-
-defaults:
-  run:
-    working-directory: 'nephelaiio.nfs'
 
 jobs:
   molecule:
-    name: Molecule
+    name: molecule
     runs-on: ubuntu-latest
     strategy:
       matrix:
