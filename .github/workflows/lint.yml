@@ -8,7 +8,7 @@ on:
 
 defaults:
   run:
-    working-directory: 'nephelaiio.nfs'
+    working-directory: "nephelaiio.nfs"
 
 jobs:
   lint:
@@ -18,12 +18,12 @@ jobs:
       - name: Check out the codebase
         uses: actions/checkout@v4
         with:
-          path: 'nephelaiio.nfs'
+          path: "nephelaiio.nfs"
 
       - name: Set up python 3
         uses: actions/setup-python@v5
         with:
-          python-version: '3.x'
+          python-version: "3.x"
 
       - name: Update ubuntu repositories
         run: sudo apt-get update
