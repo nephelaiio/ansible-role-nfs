@@ -5,4 +5,6 @@ nfs_service_enabled: true
 nfs_server: true
 nfs_conf_template: exports.j2
 nfs_conf_path: /etc/exports
+nfs_user: root
+nfs_group: root
 nfs_exports: []
