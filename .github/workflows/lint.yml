@@ -1,35 +1,10 @@
 ---
 name: lint
-
+permissions:
+  contents: read
 on:
   pull_request:
-    branches:
-      - master
-
-defaults:
-  run:
-    working-directory: "nephelaiio.nfs"
-
+    branches: ["main", "master"]
 jobs:
   lint:
-    name: Lint
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out the codebase
-        uses: actions/checkout@v4
-        with:
-          path: "nephelaiio.nfs"
-
-      - name: Set up python 3
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.x"
-
-      - name: Update ubuntu repositories
-        run: sudo apt-get update
-
-      - name: Install make
-        run: sudo apt-get install -y make
-
-      - name: Lint code
-        run: make lint
+    uses: pokerops/ansible-utils/.github/workflows/lint.yml@master
